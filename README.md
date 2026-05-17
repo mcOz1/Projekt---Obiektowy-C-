@@ -1,57 +1,68 @@
 # RPG Inventory & Crafting Simulator
 
-Aplikacja okienkowa (WPF) napisana w języku C#, stworzona w celu demonstracji zaawansowanych mechanizmów programowania obiektowego. Tematyką projektu jest system zarządzania ekwipunkiem bohatera oraz mechanika rzemiosła (crafting) znana z gier RPG.
-
-Projekt spełnia wszystkie wymagania zaliczeniowe, implementując 12 kluczowych zagadnień OOP, a także zawiera dodatkowe mechanizmy wykraczające poza podstawowy materiał (na ocenę bardzo dobrą).
-
-## 🌟 Elementy na ocenę bardzo dobrą (BDB)
-Aby wyjść poza standardowe mechanizmy zajęciowe, w projekcie zaimplementowano następujące funkcje:
-
-1. **Metody rozszerzające (Extension Methods):** Stworzono statyczną klasę `ItemExtensions`, która dodaje nową funkcjonalność (`GetExclamatoryDescription()`) do wszystkich obiektów implementujących interfejs `IItem`, bez ingerencji w sam interfejs i klasy bazowe.
-2. **Ograniczenia typów generycznych (Generic Type Constraints):** Klasa ekwipunku `Inventory<T>` została zabezpieczona klauzulą `where T : IItem`. Gwarantuje to, że kolekcja przyjmie tylko poprawne obiekty w grze, chroniąc przed błędami (np. próbą stworzenia ekwipunku przechowującego zwykłe liczby).
-3. **Zaawansowane wiązanie danych (Data Binding & ObservableCollection):** Zamiast zwykłej listy `List<T>`, do komunikacji z interfejsem graficznym użyto `ObservableCollection<T>`. Dzięki temu UI automatycznie reaguje na zmiany w strukturze danych (np. po scraftowaniu przedmiotu), eliminując potrzebę ręcznego odświeżania kontrolek i zapobiegając błędom niespójności.
-4. **LINQ:** Zastosowano zapytania LINQ (np. `.Cast<IItem>().ToList()`) do eleganckiego i bezpiecznego wyciągania zaznaczonych elementów z interfejsu do logiki programu.
+> Interaktywna aplikacja okienkowa (WPF) demonstrująca zaawansowane mechanizmy programowania obiektowego w języku C#. Projekt symuluje system zarządzania ekwipunkiem i rzemiosłem (crafting) znany z gier RPG.
 
 ---
 
-## 📋 Realizacja punktów z wymagań
+## 📖 Spis Treści
+- [O projekcie](#o-projekcie)
+- [Technologie](#technologie)
+- [Funkcjonalności](#funkcjonalności)
+- [Rozszerzenia (Ocena Bardzo Dobra)](#rozszerzenia-ocena-bardzo-dobra)
+- [Dokumentacja Architektury OOP (Wymagania)](#dokumentacja-architektury-oop-wymagania)
+- [Uruchomienie](#uruchomienie)
 
-Poniżej znajduje się mapa projektu, wskazująca, w którym miejscu kodu zrealizowano poszczególne zagadnienia.
+---
 
-### 1. Klasy
-Cała logika gry opiera się na klasach. Zdefiniowano m.in. logikę interfejsu (`MainWindow`), klasę zarządzającą (`Inventory<T>`) oraz modele przedmiotów (`Potion`, `Weapon`, `BaseItem`).
+## 🛠 O projekcie
+Aplikacja została stworzona jako projekt zaliczeniowy z programowania obiektowego. Celem było praktyczne zaimplementowanie 12 kluczowych mechanizmów OOP w jednym, spójnym środowisku z interfejsem graficznym. Zamiast izolowanych przykładów, mechanizmy te współpracują ze sobą, tworząc w pełni funkcjonalny symulator ekwipunku postaci.
 
-### 2. Konstruktory
-Każda z klas posiada odpowiednie konstruktory. Wykorzystano również przekazywanie parametrów do konstruktora klasy bazowej przy użyciu słowa kluczowego `base(name)` (np. w klasie `Potion`).
+## 💻 Technologie
+- **Język:** C# (C# 10.0+)
+- **Framework:** .NET / WPF (Windows Presentation Foundation)
+- **Paradygmat:** Programowanie Zorientowane Obiektowo (OOP)
 
-### 3. Właściwości / Indeksatory
-* **Właściwości:** Standardowy sposób hermetyzacji danych, np. `Power` lub `Damage` w klasach przedmiotów.
-* **Indeksator:** Zaimplementowany w klasie `Inventory<T>` jako `public T this[int index] { get; set; }`. Pozwala to na odwoływanie się do konkretnego slotu w plecaku tak samo, jak do elementów tablicy.
+## ✨ Funkcjonalności
+- **Kreator przedmiotów:** Dynamiczne tworzenie mikstur i broni z wykorzystaniem polimorfizmu.
+- **Asynchroniczny Crafting:** Łączenie mikstur w potężniejsze eliksiry bez blokowania interfejsu (UI thread).
+- **Inspektor Obiektów:** Narzędzie oparte na refleksji pozwalające na podgląd "wnętrza" i właściwości dowolnego obiektu w czasie działania programu.
+- **Reaktywny Interfejs:** Automatyczna aktualizacja widoków (Listbox) dzięki powiązaniom danych i zdarzeniom.
 
-### 4. Statyczne
-W klasie `Potion` użyto statycznej właściwości `TotalPotionsCreated`, która śledzi łączną liczbę mikstur wygenerowanych podczas działania programu (wartość wspólna dla wszystkich instancji klasy). Utworzono również w pełni statyczną klasę `ItemExtensions`.
+---
 
-### 5. Dziedziczenie
-Zbudowano hierarchię klas. Klasy `Potion` (mikstury) oraz `Weapon` (broń) dziedziczą wspólne cechy (np. nazwę) z bazowej klasy `BaseItem`.
+## 🚀 Rozszerzenia (Ocena Bardzo Dobra)
+Projekt wychodzi poza standardowe ramy kursu, implementując dodatkowe, zaawansowane wzorce projektowe i mechanizmy języka C#:
 
-### 6. Polimorfizm
-Zaimplementowano wirtualną/abstrakcyjną metodę `GetDescription()` w klasie bazowej, która jest nadpisywana (`override`) w klasach dziedziczących. Dzięki temu ten sam kod odświeżający interfejs potrafi poprawnie wyświetlić specyficzne statystyki dla różnych typów przedmiotów.
+1. **Metody rozszerzające (Extension Methods):** - Zaimplementowano statyczną klasę `ItemExtensions`, która bezinwazyjnie rozszerza interfejs `IItem` o metodę `GetExclamatoryDescription()`.
+2. **Restrykcje typów generycznych (Generic Type Constraints):** - Klasa `Inventory<T>` została ograniczona klauzulą `where T : IItem`, co wymusza silne typowanie i chroni przed błędnym wstrzyknięciem danych bazowych.
+3. **Zaawansowane kolekcje WPF (ObservableCollection):** - Zastąpiono standardowe listy `List<T>` kolekcją `ObservableCollection<T>`. Eliminuje to konieczność ręcznego odświeżania UI i zapewnia integralność stanu widoku przy asynchronicznych modyfikacjach danych.
+4. **LINQ (Language Integrated Query):** - Wykorzystano metody LINQ (np. `.Cast<IItem>().ToList()`) do bezpiecznego rzutowania i transformacji kolekcji obiektów wybranych z UI.
 
-### 7. Interfejsy / Abstrakcja
-* **Interfejs:** `IItem` określa kontrakt, jaki musi spełnić każdy przedmiot dodawany do plecaka (musi posiadać nazwę i opis).
-* **Abstrakcja:** `BaseItem` jest klasą abstrakcyjną (`abstract class`). Nie można stworzyć w grze "czystego przedmiotu" – zawsze musi to być konkretna instancja z klasy pochodnej (broń lub mikstura).
+---
 
-### 8. Typy ogólne / Kolekcje
-Stworzono generyczną klasę `Inventory<T>`, która może przechowywać dowolny typ zgodny z określonym ograniczeniem. Wewnątrz niej wykorzystano zaawansowaną kolekcję WPF: `ObservableCollection<T>`.
+## 📐 Dokumentacja Architektury OOP (Wymagania)
 
-### 9. Delegacje / Zdarzenia
-W klasie ekwipunku zdefiniowano zdarzenie (`public event EventHandler<T> OnItemAdded`). Zdarzenie to jest wywoływane w momencie włożenia przedmiotu do plecaka. Klasa `MainWindow` "nasłuchuje" tego zdarzenia, by automatycznie dopisać odpowiedni komunikat do logów systemowych (Adventure Log).
+Poniżej przedstawiono mapę implementacji 12 wymaganych punktów zaliczeniowych w strukturze projektu.
 
-### 10. Przeciążanie operatorów
-W klasie `Potion` przeciążono operator dodawania: `public static Potion operator +(Potion a, Potion b)`. Wykorzystano to w mechanice "Craftingu" – łączenie dwóch mikstur w interfejsie faktycznie "dodaje" do siebie dwa obiekty i zwraca nową, potężniejszą miksturę.
+| # | Wymaganie | Implementacja w kodzie | Opis |
+|---|---|---|---|
+| **1** | **Klasy** | `BaseItem`, `Potion`, `Weapon`, `Inventory<T>` | Podstawowe jednostki logiczne budujące architekturę symulatora. |
+| **2** | **Konstruktory** | Np. `Potion(string name, int power)` | Klasy bazowe i pochodne posiadają konstruktory, wykorzystano inicjalizację z użyciem `base()`. |
+| **3** | **Właściwości / Indeksatory** | `Inventory<T>.this[int index]` | Dane hermetyzowane za pomocą properties (`get; set;`). W klasie ekwipunku użyto indeksatora dla tablicowego dostępu do obiektów. |
+| **4** | **Statyczne** | `Potion.TotalPotionsCreated` | Właściwość śledząca globalną liczbę utworzonych mikstur. Utworzono również statyczną klasę z metodami rozszerzającymi. |
+| **5** | **Dziedziczenie** | `class Potion : BaseItem` | Mikstury i bronie dziedziczą wspólny kontrakt z klasy bazowej, co promuje reużywalność kodu. |
+| **6** | **Polimorfizm** | `override string GetDescription()` | Obiekty posiadają własne implementacje metody opisowej, interpretowane dynamicznie w czasie wykonywania programu. |
+| **7** | **Interfejsy / Abstrakcja** | `IItem`, `abstract class BaseItem` | Ustanowienie kontraktów dla przedmiotów. Blokada możliwości utworzenia "pustego", niezdefiniowanego przedmiotu dzięki klasie abstrakcyjnej. |
+| **8** | **Typy ogólne / Kolekcje** | `Inventory<T>` | Generyczny kontener do przechowywania przedmiotów dowolnego, określonego umową typu. |
+| **9** | **Delegacje / Zdarzenia** | `event EventHandler<T> OnItemAdded` | System powiadomień. Dodanie przedmiotu do bazy emituje zdarzenie, które nasłuchiwane jest przez klasę widoku w celu logowania operacji. |
+| **10** | **Przeciążanie operatorów**| `operator +(Potion a, Potion b)` | Zdefiniowanie zachowania operatora dodawania dla klas własnych – mechanizm wykorzystany w systemie warzenia (craftingu). |
+| **11** | **Prog. asynchroniczne** | `async / await`, `Task.Delay()` | Symulacja operacji I/O (ładowanie z serwera, proces craftingu) na osobnych wątkach, zachowując responsywność aplikacji. |
+| **12** | **Refleksja** | `selectedItem.GetType()`, `GetProperties()`| Dynamiczna analiza metadanych. Aplikacja w locie bada nieznany obiekt i wyświetla listę jego składowych oraz strukturę dziedziczenia. |
 
-### 11. Programowanie asynchroniczne
-Operacje symulujące połączenie z bazą danych ("Auto-Load Starter Pack") oraz proces warzenia ("Combine Selected Potions") są asynchroniczne (`async` / `await`). Użyto `Task.Delay()` do symulacji upływu czasu, dzięki czemu interfejs użytkownika nie zawiesza się podczas trwania tych procesów.
+---
 
-### 12. Refleksja
-Przycisk "Inspect Selected Item" wykorzystuje mechanizm refleksji. Program dynamicznie bada zaznaczony obiekt (nie znając z góry jego typu) używając m.in. `GetType()` oraz `GetProperties()`, aby wypisać w logach strukturę klasy bazowej, jej nazwę oraz listę wszystkich ukrytych pól i wartości w czasie rzeczywistym.
+## ⚙️ Uruchomienie
+
+1. Sklonuj repozytorium:
+   ```bash
+   git clone [https://github.com/TwojLogin/RepoName.git](https://github.com/TwojLogin/RepoName.git)
