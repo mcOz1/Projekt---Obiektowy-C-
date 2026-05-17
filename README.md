@@ -1,68 +1,68 @@
 # RPG Inventory & Crafting Simulator
 
-> Interaktywna aplikacja okienkowa (WPF) demonstrująca zaawansowane mechanizmy programowania obiektowego w języku C#. Projekt symuluje system zarządzania ekwipunkiem i rzemiosłem (crafting) znany z gier RPG.
+> An interactive Windows Presentation Foundation (WPF) application demonstrating advanced Object-Oriented Programming (OOP) mechanisms in C#. The project simulates an inventory management and crafting system commonly found in RPG games.
 
 ---
 
-## 📖 Spis Treści
-- [O projekcie](#o-projekcie)
-- [Technologie](#technologie)
-- [Funkcjonalności](#funkcjonalności)
-- [Rozszerzenia (Ocena Bardzo Dobra)](#rozszerzenia-ocena-bardzo-dobra)
-- [Dokumentacja Architektury OOP (Wymagania)](#dokumentacja-architektury-oop-wymagania)
-- [Uruchomienie](#uruchomienie)
+## 📖 Table of Contents
+- [About the Project](#about-the-project)
+- [Technologies](#technologies)
+- [Features](#features)
+- [Advanced Features (For Top Grade)](#advanced-features-for-top-grade)
+- [OOP Architecture Documentation (Requirements)](#oop-architecture-documentation-requirements)
+- [Getting Started](#getting-started)
 
 ---
 
-## 🛠 O projekcie
-Aplikacja została stworzona jako projekt zaliczeniowy z programowania obiektowego. Celem było praktyczne zaimplementowanie 12 kluczowych mechanizmów OOP w jednym, spójnym środowisku z interfejsem graficznym. Zamiast izolowanych przykładów, mechanizmy te współpracują ze sobą, tworząc w pełni funkcjonalny symulator ekwipunku postaci.
+## 🛠 About the Project
+This application was created as a final project for an Object-Oriented Programming course. The goal was to practically implement 12 key OOP mechanisms within a single, cohesive graphical user interface environment. Instead of isolated examples, these mechanisms work together to create a fully functional character inventory simulator.
 
-## 💻 Technologie
-- **Język:** C# (C# 10.0+)
+## 💻 Technologies
+- **Language:** C# (C# 10.0+)
 - **Framework:** .NET / WPF (Windows Presentation Foundation)
-- **Paradygmat:** Programowanie Zorientowane Obiektowo (OOP)
+- **Paradigm:** Object-Oriented Programming (OOP)
 
-## ✨ Funkcjonalności
-- **Kreator przedmiotów:** Dynamiczne tworzenie mikstur i broni z wykorzystaniem polimorfizmu.
-- **Asynchroniczny Crafting:** Łączenie mikstur w potężniejsze eliksiry bez blokowania interfejsu (UI thread).
-- **Inspektor Obiektów:** Narzędzie oparte na refleksji pozwalające na podgląd "wnętrza" i właściwości dowolnego obiektu w czasie działania programu.
-- **Reaktywny Interfejs:** Automatyczna aktualizacja widoków (Listbox) dzięki powiązaniom danych i zdarzeniom.
-
----
-
-## 🚀 Rozszerzenia (Ocena Bardzo Dobra)
-Projekt wychodzi poza standardowe ramy kursu, implementując dodatkowe, zaawansowane wzorce projektowe i mechanizmy języka C#:
-
-1. **Metody rozszerzające (Extension Methods):** - Zaimplementowano statyczną klasę `ItemExtensions`, która bezinwazyjnie rozszerza interfejs `IItem` o metodę `GetExclamatoryDescription()`.
-2. **Restrykcje typów generycznych (Generic Type Constraints):** - Klasa `Inventory<T>` została ograniczona klauzulą `where T : IItem`, co wymusza silne typowanie i chroni przed błędnym wstrzyknięciem danych bazowych.
-3. **Zaawansowane kolekcje WPF (ObservableCollection):** - Zastąpiono standardowe listy `List<T>` kolekcją `ObservableCollection<T>`. Eliminuje to konieczność ręcznego odświeżania UI i zapewnia integralność stanu widoku przy asynchronicznych modyfikacjach danych.
-4. **LINQ (Language Integrated Query):** - Wykorzystano metody LINQ (np. `.Cast<IItem>().ToList()`) do bezpiecznego rzutowania i transformacji kolekcji obiektów wybranych z UI.
+## ✨ Features
+- **Item Creator:** Dynamically create potions and weapons utilizing polymorphism.
+- **Asynchronous Crafting:** Combine potions into more powerful elixirs without blocking the user interface (UI thread).
+- **Object Inspector:** A reflection-based tool allowing users to inspect the "internals" and properties of any object at runtime.
+- **Reactive UI:** Automatic view updates (ListBox) thanks to data binding and events.
 
 ---
 
-## 📐 Dokumentacja Architektury OOP (Wymagania)
+## 🚀 Advanced Features (For Top Grade)
+The project goes beyond the standard course framework by implementing additional, advanced design patterns and C# language features:
 
-Poniżej przedstawiono mapę implementacji 12 wymaganych punktów zaliczeniowych w strukturze projektu.
+1. **Extension Methods:** - Implemented a static `ItemExtensions` class that non-invasively extends the `IItem` interface with a `GetExclamatoryDescription()` method.
+2. **Generic Type Constraints:** - The `Inventory<T>` class is restricted by the `where T : IItem` clause, which enforces strong typing and prevents the injection of invalid base data.
+3. **Advanced WPF Collections (ObservableCollection):** - Standard `List<T>` collections were replaced with `ObservableCollection<T>`. This eliminates the need for manual UI refreshing and ensures view state integrity during asynchronous data modifications.
+4. **LINQ (Language Integrated Query):** - Utilized LINQ methods (e.g., `.Cast<IItem>().ToList()`) for safe casting and transformation of object collections selected from the UI.
 
-| # | Wymaganie | Implementacja w kodzie | Opis |
+---
+
+## 📐 OOP Architecture Documentation (Requirements)
+
+Below is a map illustrating where the 12 required grading points are implemented within the project's structure.
+
+| # | Requirement | Implementation in Code | Description |
 |---|---|---|---|
-| **1** | **Klasy** | `BaseItem`, `Potion`, `Weapon`, `Inventory<T>` | Podstawowe jednostki logiczne budujące architekturę symulatora. |
-| **2** | **Konstruktory** | Np. `Potion(string name, int power)` | Klasy bazowe i pochodne posiadają konstruktory, wykorzystano inicjalizację z użyciem `base()`. |
-| **3** | **Właściwości / Indeksatory** | `Inventory<T>.this[int index]` | Dane hermetyzowane za pomocą properties (`get; set;`). W klasie ekwipunku użyto indeksatora dla tablicowego dostępu do obiektów. |
-| **4** | **Statyczne** | `Potion.TotalPotionsCreated` | Właściwość śledząca globalną liczbę utworzonych mikstur. Utworzono również statyczną klasę z metodami rozszerzającymi. |
-| **5** | **Dziedziczenie** | `class Potion : BaseItem` | Mikstury i bronie dziedziczą wspólny kontrakt z klasy bazowej, co promuje reużywalność kodu. |
-| **6** | **Polimorfizm** | `override string GetDescription()` | Obiekty posiadają własne implementacje metody opisowej, interpretowane dynamicznie w czasie wykonywania programu. |
-| **7** | **Interfejsy / Abstrakcja** | `IItem`, `abstract class BaseItem` | Ustanowienie kontraktów dla przedmiotów. Blokada możliwości utworzenia "pustego", niezdefiniowanego przedmiotu dzięki klasie abstrakcyjnej. |
-| **8** | **Typy ogólne / Kolekcje** | `Inventory<T>` | Generyczny kontener do przechowywania przedmiotów dowolnego, określonego umową typu. |
-| **9** | **Delegacje / Zdarzenia** | `event EventHandler<T> OnItemAdded` | System powiadomień. Dodanie przedmiotu do bazy emituje zdarzenie, które nasłuchiwane jest przez klasę widoku w celu logowania operacji. |
-| **10** | **Przeciążanie operatorów**| `operator +(Potion a, Potion b)` | Zdefiniowanie zachowania operatora dodawania dla klas własnych – mechanizm wykorzystany w systemie warzenia (craftingu). |
-| **11** | **Prog. asynchroniczne** | `async / await`, `Task.Delay()` | Symulacja operacji I/O (ładowanie z serwera, proces craftingu) na osobnych wątkach, zachowując responsywność aplikacji. |
-| **12** | **Refleksja** | `selectedItem.GetType()`, `GetProperties()`| Dynamiczna analiza metadanych. Aplikacja w locie bada nieznany obiekt i wyświetla listę jego składowych oraz strukturę dziedziczenia. |
+| **1** | **Classes** | `BaseItem`, `Potion`, `Weapon`, `Inventory<T>` | The fundamental logical units building the simulator's architecture. |
+| **2** | **Constructors** | e.g., `Potion(string name, int power)` | Base and derived classes have constructors; initialization using `base()` is utilized. |
+| **3** | **Properties / Indexers** | `Inventory<T>.this[int index]` | Data encapsulated using properties (`get; set;`). An indexer is used in the inventory class for array-like access to objects. |
+| **4** | **Static Members** | `Potion.TotalPotionsCreated` | A property tracking the global number of crafted potions. A static class with extension methods was also created. |
+| **5** | **Inheritance** | `class Potion : BaseItem` | Potions and weapons inherit a shared contract from the base class, promoting code reusability. |
+| **6** | **Polymorphism** | `override string GetDescription()` | Objects have their own implementations of the descriptive method, dynamically interpreted at runtime. |
+| **7** | **Interfaces / Abstraction**| `IItem`, `abstract class BaseItem` | Establishing contracts for items. Preventing the creation of an "empty", undefined item via an abstract class. |
+| **8** | **Generics / Collections** | `Inventory<T>` | A generic container for storing items of any type that complies with the specified contract. |
+| **9** | **Delegates / Events** | `event EventHandler<T> OnItemAdded` | Notification system. Adding an item to the database emits an event, which is listened to by the view class to log the operation. |
+| **10** | **Operator Overloading** | `operator +(Potion a, Potion b)` | Defining the behavior of the addition operator for custom classes – a mechanism used in the crafting system. |
+| **11** | **Async Programming** | `async / await`, `Task.Delay()` | Simulating I/O operations (server loading, crafting process) on separate threads, maintaining application responsiveness. |
+| **12** | **Reflection** | `selectedItem.GetType()`, `GetProperties()`| Dynamic metadata analysis. The application inspects an unknown object on the fly and displays its members and inheritance structure. |
 
 ---
 
-## ⚙️ Uruchomienie
+## ⚙️ Getting Started
 
-1. Sklonuj repozytorium:
+1. Clone the repository:
    ```bash
-   git clone [https://github.com/TwojLogin/RepoName.git](https://github.com/TwojLogin/RepoName.git)
+   git clone [https://github.com/YourUsername/RepoName.git](https://github.com/YourUsername/RepoName.git)
